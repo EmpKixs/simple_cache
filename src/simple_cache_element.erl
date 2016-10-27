@@ -13,10 +13,10 @@ start_link(Value,LeaseTime) ->
 	gen_server:start_link(?MODULE, [Value,LeaseTime], []).
 
 create(Value) ->
-	sc_sup:start_child(Value, ?DEFAULT_LEASE_TIME).
+	create(Value, ?DEFAULT_LEASE_TIME).
 
 create(Value,LeaseTime) ->
-	sc_sup:start_child(Value, LeaseTime).
+	simple_cache_element_sup:start_child(Value, LeaseTime).
 
 fetch(Pid) ->
 	gen_server:call(Pid	,fetch).
@@ -68,16 +68,19 @@ handle_cast({replace,Value}, State) ->
 	TimeLeft = time_left(LeaseTime, StartTime),
 	{noreply, State#state{value=Value},TimeLeft};
 handle_cast(delete,State)->
+	io:format("~n-------stop-------~n"),
 	{stop,normal,State}.
 
 
 %% handle_info/2
 handle_info(timeout, State) ->
+	io:format("~n-------stop-------~n"),
     {stop,normal, State}.
 
 
 %% terminate/2
 terminate(_Reason, _State) ->
+	io:format("~n-------terminate-------~n"),
     simple_cache_store:delete(self()),
 	ok.
 
