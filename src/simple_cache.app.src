@@ -8,6 +8,6 @@
                   kernel,
                   stdlib
                  ]},
-  {mod, { simple_cache_app, []}},
+  {mod, {simple_cache_app, []}},
   {env, []}
  ]}.

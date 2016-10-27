@@ -11,7 +11,7 @@ init() ->
 	ok.
 
 insert(Key,Pid) ->
-	ets:insert(?TABLE_ID, {Pid,Key}).
+	ets:insert(?TABLE_ID, {Key,Pid}).
 
 look_up(Key) ->
 	case ets:lookup(?TABLE_ID, Key) of
